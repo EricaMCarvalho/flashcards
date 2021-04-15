@@ -3,9 +3,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
-const dotenv = require('dotenv');
 const MongoStore = require('connect-mongo')(session);
 const connectDB = require('./config/database');
+const expressLayouts = require('express-ejs-layouts');
 
 const app = express();
 
@@ -23,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // View engine
+app.use(expressLayouts);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -52,6 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
+app.use('/users', require('./routes/users'));
 
 const PORT = process.env.PORT || 3000;
 
